@@ -39,6 +39,8 @@ public class CensusDataParser {
     }
 
     public static void populateDataMap(IMap<String, CensusData> dataMap, String fileName) throws Exception {
+        LOGGER.info("Started reading file");
+        final long startTime = System.currentTimeMillis();
         InputStream is = new FileInputStream(new File(fileName));
         Reader reader = new InputStreamReader(is);
         try (ICsvBeanReader beanReader = new CsvBeanReader(reader, CsvPreference.STANDARD_PREFERENCE)) {
@@ -52,5 +54,7 @@ public class CensusDataParser {
                 dataMap.set(beanReader.getRowNumber() + " - "+ censusData.toString(), censusData);
             }
         }
+        LOGGER.info("Finished reading file");
+        LOGGER.info("Loading file took {} ms", System.currentTimeMillis() - startTime);
     }
 }
