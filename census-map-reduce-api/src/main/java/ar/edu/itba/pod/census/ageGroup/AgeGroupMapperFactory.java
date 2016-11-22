@@ -8,23 +8,23 @@ import org.apache.logging.log4j.Logger;
 
 import ar.edu.itba.pod.census.CensusData;
 
-public class AgeGroupMapperFactory implements Mapper<Long, CensusData, Integer, Integer> {
+public class AgeGroupMapperFactory implements Mapper<Long, CensusData, String, Integer> {
 
     private static final long serialVersionUID = -3713325164465665033L;
     private static final Logger LOGGER = LogManager.getLogger("AgeGroupMapper");
 
     @Override
-    public void map(Long inputKey, CensusData inputValue, Context<Integer, Integer> outputContext) {
+    public void map(Long inputKey, CensusData inputValue, Context<String, Integer> outputContext) {
         LOGGER.debug("Processing input for home: {} with value: {}", inputKey, inputValue);
 
-        int ageGroup;
+        String ageGroup;
 
         if (inputValue.getAge() < 15) {
-            ageGroup = 1;
+            ageGroup = "0-14";
         } else if (inputValue.getAge() < 65) {
-            ageGroup = 2;
+            ageGroup = "15-64";
         } else {
-            ageGroup = 3;
+            ageGroup = "65-?";
         }
 
         outputContext.emit(ageGroup, 1);
