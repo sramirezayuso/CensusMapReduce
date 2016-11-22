@@ -1,4 +1,4 @@
-package ar.edu.itba.pod.census.ageGroup;
+package ar.edu.itba.pod.census.mappers;
 
 import com.hazelcast.mapreduce.Context;
 import com.hazelcast.mapreduce.Mapper;
@@ -14,14 +14,14 @@ public class AgeGroupMapperFactory implements Mapper<Long, CensusData, String, I
     private static final Logger LOGGER = LogManager.getLogger("AgeGroupMapper");
 
     @Override
-    public void map(Long inputKey, CensusData inputValue, Context<String, Integer> outputContext) {
-        LOGGER.debug("Processing input for home: {} with value: {}", inputKey, inputValue);
+    public void map(Long recordNumber, CensusData censusData, Context<String, Integer> outputContext) {
+        LOGGER.debug("Processing input for record: {} with value: {}", recordNumber, censusData);
 
         String ageGroup;
 
-        if (inputValue.getAge() < 15) {
+        if (censusData.getAge() < 15) {
             ageGroup = "0-14";
-        } else if (inputValue.getAge() < 65) {
+        } else if (censusData.getAge() < 65) {
             ageGroup = "15-64";
         } else {
             ageGroup = "65-?";

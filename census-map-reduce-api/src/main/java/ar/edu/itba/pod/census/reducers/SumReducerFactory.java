@@ -1,4 +1,4 @@
-package ar.edu.itba.pod.census;
+package ar.edu.itba.pod.census.reducers;
 
 import com.hazelcast.mapreduce.Reducer;
 import com.hazelcast.mapreduce.ReducerFactory;
@@ -9,8 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class SumReducerFactory<T> implements ReducerFactory<T, Integer, Long> {
 
     private static final long serialVersionUID = 7760070699178320492L;
-    private static final Logger LOGGER = LogManager.getLogger("AgeGroupReducer");
-
+    private static final Logger LOGGER = LogManager.getLogger("SumReducer");
 
     @Override
     public Reducer<Integer, Long> newReducer(final T group) {
@@ -18,20 +17,19 @@ public class SumReducerFactory<T> implements ReducerFactory<T, Integer, Long> {
             private Long sum;
 
             @Override
-            public void beginReduce() // una sola vez en cada instancia
-            {
+            public void beginReduce() {
                 sum = 0L;
             }
 
             @Override
             public void reduce(final Integer value) {
-                LOGGER.debug("Adding to sum for age group: {}", group.toString());
+                LOGGER.debug("Adding to sum for group: {}", group.toString());
                 sum += value;
             }
 
             @Override
             public Long finalizeReduce() {
-                LOGGER.debug("Final sum for age group {}: {}", group.toString(), sum);
+                LOGGER.debug("Final sum for group {}: {}", group.toString(), sum);
                 return sum;
             }
         };
