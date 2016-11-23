@@ -40,7 +40,7 @@ public class CensusClient {
 
     public static void main(String[] args) throws Exception {
         CensusClient client = new CensusClient();
-        if (System.getProperty("benchmark", "true").equals("true")) {
+        if (System.getProperty("benchmark", "false").equals("true")) {
             benchmarkAllQueries(client);
         } else {
             final String queryNumber = System.getProperty("query");

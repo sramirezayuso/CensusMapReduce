@@ -28,10 +28,10 @@ public class ProvinceDepartmentQuery implements CensusQuery<String> {
 
         StringBuilder sb = new StringBuilder();
 
-        ICompletableFuture<Map<String, Long>> result = job.mapper(new DepartmentMapperFactory())
+        ICompletableFuture<Map<String, Long>> result = job.keyPredicate(new ProvinceKeyPredicate(province))
+                .mapper(new DepartmentMapperFactory())
                 .combiner(new SumCombinerFactory<>())
                 .reducer(new SumReducerFactory<>())
-                .keyPredicate(new ProvinceKeyPredicate(province))
                 .submit();
 
         Map<String, Long> resultMap = result.get();
