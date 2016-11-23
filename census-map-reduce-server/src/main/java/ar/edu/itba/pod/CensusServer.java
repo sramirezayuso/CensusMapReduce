@@ -16,6 +16,6 @@ public class CensusServer {
         Config cfg = new Config();
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
 
-        LOGGER.info("Server initialised");
+        LOGGER.info("Server initialized");
     }
 }

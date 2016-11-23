@@ -3,6 +3,7 @@ package ar.edu.itba.pod.census.queries;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import ar.edu.itba.pod.census.combiners.AverageBooleanCombinerFactory;
 import com.hazelcast.core.ICompletableFuture;
 import com.hazelcast.mapreduce.Job;
 
@@ -24,6 +25,7 @@ public class LiteracyQuery implements CensusQuery<String> {
         StringBuilder sb = new StringBuilder();
 
         ICompletableFuture<Map<String, Float>> result = job.mapper(new LiteracyMapperFactory())
+                .combiner(new AverageBooleanCombinerFactory<>())
                 .reducer(new LiteracyReducerFactory<>())
                 .submit();
 
