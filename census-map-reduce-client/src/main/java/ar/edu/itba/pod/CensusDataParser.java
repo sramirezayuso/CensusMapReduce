@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.ParseLong;
+import org.supercsv.cellprocessor.Trim;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanReader;
@@ -32,8 +33,8 @@ public class CensusDataParser {
                 new ParseInt(new NotNull()),    // age
                 new ParseInt(new NotNull()),    // literacy
                 new ParseInt(new NotNull()),    // activity
-                new NotNull(),                  // departmentName
-                new NotNull(),                  // provinceName
+                new Trim(new NotNull()),        // departmentName
+                new Trim(new NotNull()),        // provinceName
                 new ParseLong(new NotNull())    // homeId
         };
     }
