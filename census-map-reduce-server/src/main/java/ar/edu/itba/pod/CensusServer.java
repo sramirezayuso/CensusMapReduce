@@ -14,6 +14,8 @@ public class CensusServer {
     public static void main(String[] args) {
 
         Config cfg = new Config();
+        cfg.getGroupConfig().setName("52561-53346");
+
         HazelcastInstance instance = Hazelcast.newHazelcastInstance(cfg);
 
         LOGGER.info("Server initialized");

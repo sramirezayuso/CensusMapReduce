@@ -1,9 +1,6 @@
 package ar.edu.itba.pod;
 
 import java.io.PrintWriter;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import com.hazelcast.client.HazelcastClient;
@@ -73,6 +70,8 @@ public class CensusClient {
             ClientNetworkConfig net = new ClientNetworkConfig();
             net.addAddress(arrayAddresses);
             ccfg.setNetworkConfig(net);
+            ccfg.getGroupConfig().setName(MAP_NAME);
+            ccfg.getGroupConfig().setPassword("dev-pass");
         }
         return ccfg;
     }
