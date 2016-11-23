@@ -8,14 +8,14 @@ import org.apache.logging.log4j.Logger;
 
 import ar.edu.itba.pod.census.CensusData;
 
-public class LiteracyMapperFactory implements Mapper<Long, CensusData, String, Boolean> {
+public class LiteracyMapperFactory implements Mapper<String, CensusData, String, Boolean> {
 
     private static final long serialVersionUID = -3713325164465664013L;
     private static final Logger LOGGER = LogManager.getLogger("AgeGroupMapper");
 
     @Override
-    public void map(Long recordNumber, CensusData censusData, Context<String, Boolean> outputContext) {
-        LOGGER.debug("Processing input for record: {} with value: {}", recordNumber, censusData);
+    public void map(String id, CensusData censusData, Context<String, Boolean> outputContext) {
+        LOGGER.debug("Processing input for record: {} ", censusData);
 
         outputContext.emit(censusData.getDepartmentName(), censusData.getLiteracy() == 2);
 

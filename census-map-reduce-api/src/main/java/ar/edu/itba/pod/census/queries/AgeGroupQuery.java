@@ -11,10 +11,10 @@ import ar.edu.itba.pod.census.combiners.SumCombinerFactory;
 import ar.edu.itba.pod.census.reducers.SumReducerFactory;
 import ar.edu.itba.pod.census.mappers.AgeGroupMapperFactory;
 
-public class AgeGroupQuery implements CensusQuery<Long> {
+public class AgeGroupQuery implements CensusQuery<String> {
 
     @Override
-    public String submit(Job<Long, CensusData> job) throws ExecutionException, InterruptedException {
+    public String submit(Job<String, CensusData> job) throws ExecutionException, InterruptedException {
 
         StringBuilder sb = new StringBuilder();
 

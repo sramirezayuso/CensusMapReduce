@@ -10,10 +10,10 @@ import ar.edu.itba.pod.census.CensusData;
 import ar.edu.itba.pod.census.mappers.HomeTypeMapperFactory;
 import ar.edu.itba.pod.census.reducers.AverageReducerFactory;
 
-public class HomeTypeQuery implements CensusQuery<Long> {
+public class HomeTypeQuery implements CensusQuery<String> {
 
     @Override
-    public String submit(Job<Long, CensusData> job) throws ExecutionException, InterruptedException {
+    public String submit(Job<String, CensusData> job) throws ExecutionException, InterruptedException {
 
         StringBuilder sb = new StringBuilder();
 

@@ -18,6 +18,8 @@ import org.apache.logging.log4j.Logger;
 import ar.edu.itba.pod.census.CensusData;
 import ar.edu.itba.pod.census.queries.AgeGroupQuery;
 import ar.edu.itba.pod.census.queries.CensusQuery;
+import ar.edu.itba.pod.census.queries.DepartmentPairQuery;
+import ar.edu.itba.pod.census.queries.ProvinceDepartmentQuery;
 import ar.edu.itba.pod.census.queries.HomeTypeQuery;
 import ar.edu.itba.pod.census.queries.LiteracyQuery;
 
@@ -69,15 +71,13 @@ public class CensusClient {
             case "1": query = Optional.of(new AgeGroupQuery()); break;
             case "2": query = Optional.of(new HomeTypeQuery()); break;
             case "3": query = Optional.of(new LiteracyQuery(Integer.valueOf(System.getProperty("n")))); break;
-            case "4":
-            case "5":
-                LOGGER.warn("Query {} unimplemented.", queryNumber);
-                break;
+            case "4": query = Optional.of(new ProvinceDepartmentQuery(System.getProperty("prov"), Integer.valueOf(System.getProperty("tope")))); break;
+            case "5": query = Optional.of(new DepartmentPairQuery()); break;
             default: LOGGER.warn("Unknown query");
         }
 
         if (query.isPresent()) {
-            Job<Long, CensusData> job = getCensusJob();
+            Job<String, CensusData> job = getCensusJob();
             String result = query.get().submit(job);
 
             try (PrintWriter out = new PrintWriter(outPath)) {
@@ -88,17 +88,17 @@ public class CensusClient {
         LOGGER.info("Query took {} ms", (System.currentTimeMillis() - startTime));
     }
 
-    private Job<Long, CensusData> getCensusJob() throws Exception {
+    private Job<String, CensusData> getCensusJob() throws Exception {
         // Ahora el JobTracker y los Workers!
         JobTracker tracker = hazelcastInstance.getJobTracker("default");
 
         LOGGER.info(hazelcastInstance.getCluster());
 
-        IMap<Long, CensusData> myMap = hazelcastInstance.getMap(MAP_NAME);
+        IMap<String, CensusData> myMap = hazelcastInstance.getMap(MAP_NAME);
         CensusDataParser.populateDataMap(myMap, inPath);
 
         // Ahora el Job desde los pares(key, Value) que precisa MapReduce
-        KeyValueSource<Long, CensusData> source = KeyValueSource.fromMap(myMap);
+        KeyValueSource<String, CensusData> source = KeyValueSource.fromMap(myMap);
         return tracker.newJob(source);
     }
 }

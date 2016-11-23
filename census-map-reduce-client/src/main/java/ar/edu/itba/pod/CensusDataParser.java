@@ -34,11 +34,11 @@ public class CensusDataParser {
                 new ParseInt(new NotNull()),    // activity
                 new NotNull(),                  // departmentName
                 new NotNull(),                  // provinceName
-                new ParseLong(new NotNull())     // homeId
+                new ParseLong(new NotNull())    // homeId
         };
     }
 
-    public static void populateDataMap(IMap<Long, CensusData> dataMap, String fileName) throws Exception {
+    public static void populateDataMap(IMap<String, CensusData> dataMap, String fileName) throws Exception {
         InputStream is = new FileInputStream(new File(fileName));
         Reader reader = new InputStreamReader(is);
         try (ICsvBeanReader beanReader = new CsvBeanReader(reader, CsvPreference.STANDARD_PREFERENCE)) {
@@ -49,7 +49,7 @@ public class CensusDataParser {
             CensusData censusData;
             while ((censusData = beanReader.read(CensusData.class, header, processors)) != null) {
                 LOGGER.debug("lineNumber={}, rowNumber={}, data={}", beanReader.getLineNumber(), beanReader.getRowNumber(), censusData);
-                dataMap.set(Long.valueOf(beanReader.getRowNumber()), censusData);
+                dataMap.set(beanReader.getRowNumber() + " - "+ censusData.toString(), censusData);
             }
         }
     }

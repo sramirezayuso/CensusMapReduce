@@ -10,7 +10,7 @@ import ar.edu.itba.pod.census.CensusData;
 import ar.edu.itba.pod.census.mappers.LiteracyMapperFactory;
 import ar.edu.itba.pod.census.reducers.LiteracyReducerFactory;
 
-public class LiteracyQuery implements CensusQuery<Long> {
+public class LiteracyQuery implements CensusQuery<String> {
 
     private final int maxDepartments;
 
@@ -19,7 +19,7 @@ public class LiteracyQuery implements CensusQuery<Long> {
     }
 
     @Override
-    public String submit(Job<Long, CensusData> job) throws ExecutionException, InterruptedException {
+    public String submit(Job<String, CensusData> job) throws ExecutionException, InterruptedException {
 
         StringBuilder sb = new StringBuilder();
 

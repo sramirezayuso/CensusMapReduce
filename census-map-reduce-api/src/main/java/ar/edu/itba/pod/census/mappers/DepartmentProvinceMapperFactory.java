@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import ar.edu.itba.pod.census.CensusData;
 
-public class AgeGroupMapperFactory implements Mapper<String, CensusData, String, Integer> {
+public class DepartmentProvinceMapperFactory implements Mapper<String, CensusData, String, Integer> {
 
     private static final long serialVersionUID = -3713325164465665033L;
     private static final Logger LOGGER = LogManager.getLogger("AgeGroupMapper");
@@ -17,18 +17,8 @@ public class AgeGroupMapperFactory implements Mapper<String, CensusData, String,
     public void map(String id, CensusData censusData, Context<String, Integer> outputContext) {
         LOGGER.debug("Processing input for record: {}", censusData);
 
-        String ageGroup;
+        outputContext.emit(String.format("%s (%s)",censusData.getDepartmentName().trim(), censusData.getProvinceName().trim()), 1);
 
-        if (censusData.getAge() < 15) {
-            ageGroup = "0-14";
-        } else if (censusData.getAge() < 65) {
-            ageGroup = "15-64";
-        } else {
-            ageGroup = "65-?";
-        }
-
-        outputContext.emit(ageGroup, 1);
-
-        LOGGER.debug("Classified into age group {}", ageGroup);
+        LOGGER.debug("Classified into department {}", censusData.getDepartmentName());
     }
 }

@@ -8,17 +8,17 @@ import org.apache.logging.log4j.Logger;
 
 import ar.edu.itba.pod.census.CensusData;
 
-public class HomeTypeMapperFactory implements Mapper<String, CensusData, Integer, Long> {
+public class DepartmentMapperFactory implements Mapper<String, CensusData, String, Integer> {
 
-    private static final long serialVersionUID = -3713325164422665033L;
+    private static final long serialVersionUID = -3713325164465665033L;
     private static final Logger LOGGER = LogManager.getLogger("AgeGroupMapper");
 
     @Override
-    public void map(String id, CensusData censusData, Context<Integer, Long> outputContext) {
+    public void map(String id, CensusData censusData, Context<String, Integer> outputContext) {
         LOGGER.debug("Processing input for record: {}", censusData);
 
-        outputContext.emit(censusData.getHomeType(), censusData.getHomeId());
+        outputContext.emit(censusData.getDepartmentName(), 1);
 
-        LOGGER.debug("Classified into home type {}", censusData.getHomeType());
+        LOGGER.debug("Classified into department {}", censusData.getDepartmentName());
     }
 }
